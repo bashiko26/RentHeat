@@ -2,7 +2,9 @@
 Heat map of rent
 
 ToDo
+ mean stack
+  1. install mongodb
+
  scraper
- 1. extract rent price from webpage
- 2. extend station to line
+  1.insert data into mongodb
 
