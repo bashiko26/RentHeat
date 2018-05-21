@@ -2,12 +2,15 @@
   "name": "rent-heat",
   "version": "0.0.0",
   "scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e"
+    "start": "run-s tsc start:p",
+    "tsc": "tsc -p ./server",
+    "start:p": "run-p start:mongo watch:*",
+    "start:mongo": "mongod --config /Users/kazuya/Codes/MongoDB/mongodb.config",
+    "watch:ng": "ng serve --proxy-config proxy.conf.json",
+    "watch:tsc": "tsc -w -p ./server",
+    "watch:nodemon": "nodemon dist/server/bin/www.js",
+    "build": "run-p tsc build:ng",
+    "build:ng": "ng build --prod"
   },
   "private": true,
   "dependencies": {
