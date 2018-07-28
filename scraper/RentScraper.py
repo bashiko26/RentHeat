@@ -32,7 +32,7 @@ class Scrape:
 
         # get title
         title = soup.title.string
-        print(title)
+        # print(title)
 
         # get line
         stations = soup.find_all('tr', class_='js-graph-data')
