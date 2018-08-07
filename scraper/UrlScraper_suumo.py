@@ -1,8 +1,11 @@
 # coding: utf-8
 
 import sys
+import os
 import urllib.request
 from bs4 import BeautifulSoup
+import configparser
+import psycopg2
 
 class UrlScraper:
     base_url = 'https://suumo.jp/chintai/soba/tokyo/ensen/'
@@ -41,8 +44,30 @@ class UrlScraper:
 
         return insert_sql[:-2]
 
+    def get_connection(self):
+        name = os.path.dirname(os.path.abspath(__name__))
+        joined_path = os.path.join(name, '../env/dbconf.ini')
+        path = os.path.normpath(joined_path)
+
+        db_config = configparser.ConfigParser()
+        print(path)
+        db_config.read(path)
+
+        db = db_config['Postgres']['db']
+        host = db_config['Postgres']['host']
+        user = db_config['Postgres']['user']
+        pw = db_config['Postgres']['password']
+
+        return psycopg2.connect(database=db, host=host, user=user, password=pw)
+
+    def insert(self, sql):
+        with self.get_connection() as conn:
+            with conn.cursor() as cur:
+                cur.execute(sql)
+
 if __name__ == '__main__':
     scraper = UrlScraper()
     line_info = scraper.scrape_line_url()
     sql = scraper.createInsert(line_info)
+    scraper.insert(sql)
     print(sql)

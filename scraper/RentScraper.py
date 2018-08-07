@@ -4,7 +4,7 @@ import sys
 import urllib.request
 from bs4 import BeautifulSoup
 
-class Scrape:
+class RentScraper:
  
     def get_price(self, url):
         html = urllib.request.urlopen(url)
@@ -49,7 +49,7 @@ class Scrape:
 
 if __name__ == '__main__':
     url_nishifuna = 'https://suumo.jp/chintai/soba/chiba/ek_29360/'
-    scrape = Scrape()
+    scrape = RentScraper()
     # scrape.get_price(url_nishifuna)
     url_sobu = 'https://suumo.jp/chintai/soba/chiba/en_sobusen/'
     stations = scrape.get_stations(url_sobu)
