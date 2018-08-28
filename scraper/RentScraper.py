@@ -20,11 +20,17 @@ class RentScraper:
         
         # get rent list
         rent_list = soup.find_all('tr', class_='js-graph-data')
+        result_list = []
         for rent in rent_list:
             floor = rent.find('td').string
+            if floor == 'ワンルーム':
+                floor = '1R'
             price = rent.find('span').string
             unit = '万円'
-            print(floor + '\t: ' + price + unit)
+            result = {'floor':floor, 'price': price}
+            result_list.append(result)
+            # print(floor + '\t: ' + price + unit)
+        return result_list
 
     def get_stations(self, url):
         html = urllib.request.urlopen(url)
@@ -55,5 +61,14 @@ if __name__ == '__main__':
     stations = scrape.get_stations(url_sobu)
     
     for s in stations:
+        print(s['name'])
         # print(s)
-        scrape.get_price(s['url'])
+        rent_list = []
+        rent_list = scrape.get_price(s['url'])
+
+        for rent in rent_list:
+            print(
+                'name: ' + s['name']
+                + '\t, floor: ' + rent['floor']
+                + '\t, price: ' + rent['price']
+                )
