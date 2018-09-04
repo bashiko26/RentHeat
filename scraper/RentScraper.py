@@ -16,7 +16,13 @@ class RentScraper:
         
         # get update date
         update_date = soup.find('p', class_='graph-updated').string
-        print('更新日: ' + update_date)
+        index_month = update_date.find("月")
+        index_day = update_date.find("日")
+        year = update_date[:4]
+        month = update_date[5:index_month]
+        day = update_date[index_month+1:index_day]
+        date = year + "-" + month + "-" + day
+        print('更新日: ' + date)
         
         # get rent list
         rent_list = soup.find_all('tr', class_='js-graph-data')
